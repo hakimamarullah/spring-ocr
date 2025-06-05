@@ -40,7 +40,12 @@ ENV PATH="${JAVA_HOME}/bin:${PATH}"
 
 COPY --from=jre-build /javaruntime $JAVA_HOME
 
-RUN mkdir /opt/app
+RUN apt-get update && apt-get install -y \
+    tesseract-ocr \
+    libleptonica-dev \
+    libtesseract-dev \
+    && apt-get clean && rm -rf /var/lib/apt/lists/* && mkdir /opt/app
+
 COPY --from=jre-build /opt/app/*.jar /opt/app/*.jar
 EXPOSE 8080
 RUN echo "#!/bin/sh\njava \${JAVA_OPTS} -jar /opt/app/*jar \${JAVA_ARGS}" > ./entrypoint.sh \
