@@ -1,5 +1,6 @@
 package com.starline.ocr.service.impl;
 
+import com.starline.ocr.exceptions.ImagePreprocessingException;
 import com.starline.ocr.service.ImagePreprocessingService;
 import lombok.extern.slf4j.Slf4j;
 import org.opencv.core.CvType;
@@ -21,8 +22,10 @@ import java.io.IOException;
 @Primary
 @Slf4j
 public class ImagePreprocessingSvcV2 implements ImagePreprocessingService {
+
     static {
-        nu.pattern.OpenCV.loadLocally();
+
+        org.bytedeco.javacpp.Loader.load(org.bytedeco.opencv.opencv_java.class);
     }
 
     @Override
@@ -101,7 +104,7 @@ public class ImagePreprocessingSvcV2 implements ImagePreprocessingService {
             ImageIO.write(bi, "png", baos);
             return Imgcodecs.imdecode(new MatOfByte(baos.toByteArray()), Imgcodecs.IMREAD_COLOR);
         } catch (IOException e) {
-            throw new RuntimeException("Failed to convert BufferedImage to Mat", e);
+            throw new ImagePreprocessingException("Failed to convert BufferedImage to Mat", e);
         }
     }
 
@@ -111,7 +114,7 @@ public class ImagePreprocessingSvcV2 implements ImagePreprocessingService {
         try {
             return ImageIO.read(new ByteArrayInputStream(mob.toArray()));
         } catch (IOException e) {
-            throw new RuntimeException("Failed to convert Mat to BufferedImage", e);
+            throw new ImagePreprocessingException("Failed to convert Mat to BufferedImage", e);
         }
     }
 

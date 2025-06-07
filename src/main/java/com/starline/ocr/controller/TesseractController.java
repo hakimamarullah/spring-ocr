@@ -1,5 +1,7 @@
 package com.starline.ocr.controller;
 
+import com.starline.ocr.models.dto.BaseResponse;
+import com.starline.ocr.models.dto.ImageToTextRequest;
 import com.starline.ocr.service.ImagePreprocessingService;
 import com.starline.ocr.service.TesseractService;
 import jakarta.servlet.http.HttpServletResponse;
@@ -7,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import net.sourceforge.tess4j.TesseractException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,8 +34,11 @@ public class TesseractController {
     private final BeanFactory beanFactory;
 
     @PostMapping(value = "/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public String imageToText(@RequestParam(value = "version", required = false) String version, @RequestPart("file") MultipartFile multipartFile) throws IOException, TesseractException {
-        return tesseractService.imageToText(multipartFile.getInputStream(), version);
+    public BaseResponse<String> imageToText(@ModelAttribute ImageToTextRequest body) throws IOException, TesseractException {
+       return  BaseResponse.<String>builder()
+               .code("200")
+               .message("Success")
+               .data(tesseractService.imageToText(body.getFileInputStream(), body.getVersion())).build();
     }
 
     @PostMapping(value = "/preprocess", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)

@@ -36,7 +36,6 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/net.sourceforge.tess4j/tess4j -->
         <dependency>
             <groupId>net.sourceforge.tess4j</groupId>
             <artifactId>tess4j</artifactId>
@@ -49,19 +48,18 @@
             </exclusions>
         </dependency>
 
-
-        <!-- https://mvnrepository.com/artifact/org.bytedeco/opencv -->
+        <!-- Add JNA platform for better native library handling -->
         <dependency>
-            <groupId>org.bytedeco</groupId>
-            <artifactId>opencv</artifactId>
-            <version>4.10.0-1.5.11</version>
+            <groupId>net.java.dev.jna</groupId>
+            <artifactId>jna-platform</artifactId>
+            <version>5.14.0</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.openpnp/opencv -->
+        <!-- OpenCV dependencies (cleaned up) -->
         <dependency>
-            <groupId>org.openpnp</groupId>
-            <artifactId>opencv</artifactId>
-            <version>4.9.0-0</version>
+            <groupId>org.bytedeco</groupId>
+            <artifactId>opencv-platform</artifactId>
+            <version>4.10.0-1.5.11</version>
         </dependency>
 
         <dependency>
@@ -75,11 +73,6 @@
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>nu.pattern</groupId>
-            <artifactId>opencv</artifactId>
-            <version>2.4.9-7</version>
-        </dependency>
 
         <dependency>
             <groupId>org.projectlombok</groupId>
